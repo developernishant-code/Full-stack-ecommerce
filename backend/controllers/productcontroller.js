@@ -73,7 +73,7 @@ const getProduct = async (req, res) => {
 
         const query = req.query
         const filter = {}
-
+        // console.log(query)
         const page = parseInt(query.page) || 1
         const limit = parseInt(query.limit) || 10
         const skip = (page - 1) * limit
@@ -84,13 +84,12 @@ const getProduct = async (req, res) => {
         if (query.stock)
             filter.stock = query.stock === "true"
 
-        
+
 
         if (query.id)
             filter._id = query.id
 
         if (query.category_slug) {
-
             const category = await categorymodel.findOne({
                 slug: query.category_slug
             })
@@ -99,8 +98,8 @@ const getProduct = async (req, res) => {
                 filter.category_id = category._id
             }
         }
-        if (query.brand_slug) {
 
+        if (query.brand_slug) {
             const brand = await BrandModel.findOne({
                 slug: query.brand_slug
             })
@@ -236,16 +235,16 @@ const updateProduct = async (req, res) => {
     }
 }
 
-const editbrand = async (req, res) => {
+const editproduct = async (req, res) => {
     try {
 
         const { name, slug } = req.body
         const id = req.params.id
         const brand_logo = req.files ? req.files.image : null
 
-        const isbrandexist = await BrandModel.findById(id)
+        const isproductexist = await ProductModel.findById(id)
 
-        if (!isbrandexist) {
+        if (!isproductexist) {
             return res.status(404).json({
                 message: "brand Not found",
                 success: false
@@ -262,7 +261,7 @@ const editbrand = async (req, res) => {
         if (brand_logo) {
 
             const image = uniqueName(brand_logo.name)
-            const destination = "./public/images/brand/" + image
+            const destination = "./public/images/product/" + image
 
             brand_logo.mv(destination, async (error) => {
 
@@ -275,24 +274,24 @@ const editbrand = async (req, res) => {
 
                 update.image = image
 
-                await BrandModel.findByIdAndUpdate(id, {
+                await ProductModel.findByIdAndUpdate(id, {
                     $set: update
                 })
 
                 res.status(201).json({
-                    message: "Category Updated Successfully",
+                    message: "Product Updated Successfully",
                     success: true
                 })
             })
 
         } else {
 
-            await BrandModel.findByIdAndUpdate(id, {
+            await ProductModel.findByIdAndUpdate(id, {
                 $set: update
             })
 
             res.status(201).json({
-                message: "Category Updated Successfully",
+                message: "Product Updated Successfully",
                 success: true
             })
         }
@@ -375,4 +374,4 @@ const delete_image = async (req, res) => {
     }
 }
 
-module.exports = { createproduct, getProduct, add_images, delete_image, getProductById, deleteProduct, updateProduct }
+module.exports = { createproduct, getProduct, add_images, delete_image, getProductById, deleteProduct, updateProduct, editproduct }

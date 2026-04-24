@@ -1,14 +1,8 @@
-import SectionOne from '@/components/website/Store/Section_1/SectionOne'
-import SectionTwo from '@/components/website/Store/Section_2/SectionTwo'
+import ProductsGrid from '@/components/website/Store/Section_3/Products/ProductsGrid'
 import SectionThree from '@/components/website/Store/Section_3/SectionThree'
-import React from 'react'
 
-export default function page() {
-    return (
-        < >
-            <SectionOne />
-            <SectionTwo />
-            <SectionThree/>
-        </>
-    )
+export default async function  Page({ searchParams }) {
+  const query=await searchParams
+
+  return (<ProductsGrid query={query} />)
 }

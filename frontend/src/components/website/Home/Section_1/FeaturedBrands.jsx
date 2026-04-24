@@ -1,8 +1,8 @@
 import { GetBrands } from '@/api/Brand'
-
+import Link from 'next/link'
 
 export default async function FeaturedBrands() {
-    const brands = await GetBrands({limit:4,status:true,is_top:true})
+    const brands = await GetBrands({ limit: 8, status: true, is_top: true })
     const data = brands.allBrand
     return (
         <div className="bg-white rounded-xl shadow-sm p-4">
@@ -15,17 +15,19 @@ export default async function FeaturedBrands() {
 
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 gap-4 items-center">
                 {data.map((brand, index) => (
-                    <div
-                        key={index}
-                        className="flex items-center justify-center h-14 rounded-lg hover:shadow transition bg-white"
-                    >
-                        <img
-                            src={process.env.NEXT_PUBLIC_BRAND_IMAGE + brand.image}
-                            
-                            
-                            className="object-contain w-15"
-                        />
-                    </div>
+                    <Link key={index} href={`/products?brand_slug=${brand.slug}`}>
+                        <div
+                            className="flex items-center justify-center h-14 rounded-lg hover:shadow transition bg-white"
+                        >
+                            <img
+                                src={process.env.NEXT_PUBLIC_BRAND_IMAGE + brand.image}
+
+
+                                className="object-contain w-15"
+                            />
+                        </div>
+                    </Link>
+
                 ))}
             </div>
         </div>

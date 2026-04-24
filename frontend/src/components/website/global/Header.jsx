@@ -2,8 +2,29 @@
 
 import { FiSearch, FiShoppingCart, FiUser, FiChevronDown, FiMenu } from 'react-icons/fi'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { lstocart } from '@/redux/features/cartSlice'
 
 export default function Header() {
+    const cart = useSelector((store)=>store.cart)
+    console.log(cart)
+    const dispatcher = useDispatch()
+
+    useEffect(
+        ()=>{
+            dispatcher(lstocart())
+        },
+        []
+    )
+    
+    const navItems = [
+        { name: "Home", path: "/" },
+        { name: "Pages", path: "/pages" },
+        { name: "Products", path: "/products" },
+        { name: "Contact", path: "/contact" },
+    ]
     return (
         <header className="w-full bg-white border-b">
 
@@ -54,15 +75,16 @@ export default function Header() {
 
                 {/* Navigation */}
                 <nav className="hidden lg:flex items-center gap-8 font-medium">
-                    <div className="flex items-center gap-1 cursor-pointer">
-                        Homes <FiChevronDown size={14} />
-                    </div>
-                    <div className="flex items-center gap-1 cursor-pointer">
-                        Pages <FiChevronDown size={14} />
-                    </div>
-                    <div className="flex items-center gap-1 cursor-pointer">
-                        Products <FiChevronDown size={14} />
-                    </div>
+                    <nav className="hidden lg:flex items-center gap-8 font-medium">
+                        {navItems.map((item, index) => (
+                            <Link key={index} href={item.path}>
+                                <div className="flex items-center gap-1 cursor-pointer">
+                                    {item.name}
+                                    <FiChevronDown size={14} />
+                                </div>
+                            </Link>
+                        ))}
+                    </nav>
                     <span className="cursor-pointer">Contact</span>
                 </nav>
 
@@ -73,50 +95,56 @@ export default function Header() {
                         <p className="font-semibold text-sm">LOG IN / REGISTER</p>
                     </div>
 
-                    <div className="relative flex items-center gap-2 cursor-pointer">
-                        <FiShoppingCart size={22} />
-                        <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                            5
-                        </span>
-                        <span className="hidden md:block font-semibold">$1,689.00</span>
-                    </div>
 
-                    {/* Mobile Menu */}
-                    <button className="lg:hidden">
-                        <FiMenu size={22} />
-                    </button>
+                    <Link href={"/cart"}>
+                        <div className="relative flex items-center gap-2 cursor-pointer">
+                            <FiShoppingCart size={22} />
+                            <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                                {cart.items.length || 0}
+                            </span>
+                            <span className="hidden md:block font-semibold">${cart.original_total}</span>
+                        </div>
+
+                    </Link>
+
                 </div>
+
+                {/* Mobile Menu */}
+                <button className="lg:hidden">
+                    <FiMenu size={22} />
+                </button>
+            </div>
+        
+
+            {/*  Search Bar  */ }
+    <div className="bg-teal-500">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row gap-4 items-center justify-evenly">
+
+            <div className="flex w-[60%] bg-white rounded-full overflow-hidden">
+                <button className="px-4 text-sm font-medium flex items-center gap-1">
+                    All Categories <FiChevronDown size={14} />
+                </button>
+
+                <input
+                    type="text"
+                    placeholder="Search anything..."
+                    className="flex-1 px-4 py-2 outline-none text-sm"
+                />
+
+                <button className="px-5 text-gray-600">
+                    <FiSearch size={20} />
+                </button>
             </div>
 
-            {/*  Search Bar  */}
-            <div className="bg-teal-500">
-                <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row gap-4 items-center justify-evenly">
-
-                    <div className="flex w-[60%] bg-white rounded-full overflow-hidden">
-                        <button className="px-4 text-sm font-medium flex items-center gap-1">
-                            All Categories <FiChevronDown size={14} />
-                        </button>
-
-                        <input
-                            type="text"
-                            placeholder="Search anything..."
-                            className="flex-1 px-4 py-2 outline-none text-sm"
-                        />
-
-                        <button className="px-5 text-gray-600">
-                            <FiSearch size={20} />
-                        </button>
-                    </div>
-
-                    {/* Info Bar */}
-                    <div className="hidden lg:flex items-center gap-10 text-white text-sm font-medium">
-                        <span>FREE SHIPPING OVER $199</span>
-                        <span>30 DAYS MONEY BACK</span>
-                        <span>100% SECURE PAYMENT</span>
-                    </div>
-                </div>
+            {/* Info Bar */}
+            <div className="hidden lg:flex items-center gap-10 text-white text-sm font-medium">
+                <span>FREE SHIPPING OVER $199</span>
+                <span>30 DAYS MONEY BACK</span>
+                <span>100% SECURE PAYMENT</span>
             </div>
+        </div>
+    </div>
 
-        </header>
+        </header >
     )
 }

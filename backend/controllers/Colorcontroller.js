@@ -46,7 +46,15 @@ const createcolor = async (req, res) => {
 
 const getcolor = async (req, res) => {
     try {
-        const allColor = await ColorModel.find()
+        const query = req.query
+        // console.log(query)
+        const limit = query.limit ? parseInt(query.limit) : 0
+        const filter = {}
+        if (query.status) {
+            filter.status = query.status === "true"
+        }
+        if (query.id) filter._id = query.id
+        const allColor = await ColorModel.find(filter).limit(limit)
         return res.status(200).json({
             message: "Data founded",
             succcess: true,

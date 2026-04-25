@@ -6,6 +6,7 @@ const categoryrouter = require('./routers/Categoryrouter')
 const { BrandRouter } = require('./routers/Brandrouter')
 const { ColorRouter } = require('./routers/Colorrouter')
 const { ProductRuter } = require('./routers/Productrouter')
+const { Userrouter } = require('./routers/Userrouter')
 const server = express()
 server.use(cors({origin:"http://localhost:3000"}))
 server.use(express.static("public"))
@@ -15,6 +16,7 @@ server.use("/category",categoryrouter)
 server.use("/brand",BrandRouter)
 server.use("/color",ColorRouter)
 server.use("/product",ProductRuter)
+server.use("/user",Userrouter)
 
 
 

@@ -194,7 +194,7 @@ const updateCategoryById = async (req, res) => {
         if (name) update.name = name
         if (slug) update.slug = slug
 
-        console.log(update, "update")
+        // console.log(update, "update")
 
         if (category_image) {
 

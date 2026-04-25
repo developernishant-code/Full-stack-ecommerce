@@ -9,7 +9,7 @@ import { lstocart } from '@/redux/features/cartSlice'
 
 export default function Header() {
     const cart = useSelector((store)=>store.cart)
-    console.log(cart)
+    // console.log(cart)
     const dispatcher = useDispatch()
 
     useEffect(

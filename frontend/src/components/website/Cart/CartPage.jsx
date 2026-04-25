@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { qtyChange } from "@/redux/features/cartSlice";
+import Link from "next/link";
 
 const CartPage = () => {
   const cart = useSelector((store) => store.cart)
@@ -79,10 +80,13 @@ const CartPage = () => {
               <span>${cart.final_total}</span>
             </div>
           </div>
+          <Link href="/checkout">
+            <button className="w-full mt-6 bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-xl font-medium transition">
+              Checkout
+            </button>
 
-          <button className="w-full mt-6 bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-xl font-medium transition">
-            Checkout
-          </button>
+          </Link>
+
         </div>
       </div>
     </div>

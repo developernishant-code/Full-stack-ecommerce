@@ -6,7 +6,6 @@ async function getProduct(query={}) {
   if(query.limit) filter.append("limit",query.limit)
   if(query.category_slug) filter.append("category_slug",query.category_slug)
   if(query.brand_slug) filter.append("brand_slug",query.brand_slug)
-    console.log(query,"qurry")
   try {
     const res = await axiosinstance.get(`product?${filter.toString()}`);
     // console.log(res)

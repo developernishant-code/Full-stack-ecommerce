@@ -52,8 +52,8 @@ export const cartSlice = createSlice({
       const cartItem = JSON.parse(localStorage.getItem("cart"))
       if (cartItem) {
         state.items = cartItem.items
-        state.final_total = Number(cartItem.final_price)
-        state.original_total = Number(cartItem.original_price)
+        state.final_total = Number(cartItem.final_total)
+        state.original_total = Number(cartItem.original_total)
       }
       else {
 
